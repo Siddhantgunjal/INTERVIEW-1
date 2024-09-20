@@ -1,0 +1,14 @@
+---
+-hosts: all
+ become: yes
+ tasks:
+   -name: Install appache on ubuntu
+    apt: name=apache2 state=present
+    when: ansible_os_family =="Debian"
+    ignore_errors: true
+
+  -name: Install httpd on Redhat
+   yum: name=httpd state=present
+   when: ansible_os_family ="Redhat"
+   ignore_errors: true
+   
