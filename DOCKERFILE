@@ -1,0 +1,43 @@
+# Use the official Ubuntu base image
+FROM ubuntu:22.04
+
+# Set the maintainer label
+LABEL maintainer="yourname@example.com"
+
+# Update package lists and install Nginx
+RUN apt-get update && apt-get install -y \
+    nginx \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy a custom Nginx configuration file (optional)
+# COPY nginx.conf /etc/nginx/nginx.conf
+
+# Expose port 80
+EXPOSE 80
+
+# Start Nginx
+CMD ["nginx", "-g", "daemon off;"]
+Explanation
+FROM: Uses the official Ubuntu 22.04 image as the base.
+LABEL: Adds a maintainer label for metadata.
+RUN: Updates package lists and installs Nginx, cleaning up the package lists afterward to reduce image size.
+COPY: This line is commented out. If you have a custom Nginx configuration file, you can uncomment this and specify the path to your config.
+EXPOSE: Informs Docker that the container listens on port 80.
+CMD: Runs Nginx in the foreground (the -g daemon off; option prevents it from running as a background service).
+Building and Running the Docker Image
+Build the Image: Navigate to the directory containing your Dockerfile and run:
+
+bash
+Copy code
+docker build -t my-nginx-image .
+Run the Container: Start a container from the built image:
+
+bash
+Copy code
+docker run -d -p 80:80 my-nginx-image
+Access Nginx: Open your browser and navigate to http://localhost (or your server's IP address) to see the Nginx welcome page.
+
+Custom Nginx Configuration (Optional)
+If you have a custom nginx.conf file, you can create it in the same directory as your Dockerfile and uncomment the COPY line in the Dockerfile to use it.
+
+Feel free to customize this Dockerfile further according to your needs! If you have any questions, just let me know!
